@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transaction_history', function (Blueprint $table) {
+        Schema::create('topup_history', function (Blueprint $table) {
             $table->id();
-            $table->integer('productId')->unsigned();
             $table->integer('userId')->unsigned();
-            $table->string('methodPayment', 100);
             $table->integer('amount');
             $table->timestamps();
         });
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaction_history');
+        Schema::dropIfExists('topup_history');
     }
 };

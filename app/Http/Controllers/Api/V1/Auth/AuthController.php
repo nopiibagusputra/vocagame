@@ -21,9 +21,7 @@ class AuthController extends Controller
      */
     public function login(AuthLoginRequest $request)
     {
-        
         $credentials = $request->only('email', 'password');
-
         $user = User::where('email', $request->email)->first();
 
         if (!Auth::attempt($credentials) OR $user->active != 1) {

@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transaction_history', function (Blueprint $table) {
+        Schema::create('withdrawal_history', function (Blueprint $table) {
             $table->id();
-            $table->integer('productId')->unsigned();
-            $table->integer('userId')->unsigned();
-            $table->string('methodPayment', 100);
+            $table->integer('walletId')->unsigned();
             $table->integer('amount');
+            $table->string('bank_name', 100)->nullable();
+            $table->string('account_number', 100)->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaction_history');
+        Schema::dropIfExists('withdrawal_history');
     }
 };
