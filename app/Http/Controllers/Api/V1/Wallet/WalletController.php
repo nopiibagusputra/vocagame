@@ -51,16 +51,16 @@ class WalletController extends Controller
     }
 
     public function getWallet(WalletRequest $request){
-        $wallet = Wallet::where('userId', $request->userId)->first();
+        $user = Wallet::where('userId', $request->userId)->first();
     
-        if($wallet == null){
+        if($user == null){
             return response()->json([
                'message' => 'Wallet not found'
                ], 404);
         }
 
         return response()->json([
-            'wallet' => new WalletResource($wallet)
+            'wallet' => new WalletResource($user)
         ], 200);
     }
 

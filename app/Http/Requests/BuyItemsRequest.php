@@ -3,9 +3,25 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Auth;
 
 class BuyItemsRequest extends FormRequest
 {
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $postData = $this->all();
+    
+        if (Auth::user()->id !== $postData['userId']) {
+            abort(403, 'Access Denied, ID not match');
+        }
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *

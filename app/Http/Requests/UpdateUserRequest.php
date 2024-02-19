@@ -3,9 +3,23 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Auth;
 
 class UpdateUserRequest extends FormRequest
 {
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        if (Auth::user()->level !== 'admin') {
+            abort(403, 'Unauthorized action');
+        }
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *

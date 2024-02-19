@@ -16,7 +16,7 @@ class AddUserRequest extends FormRequest
     protected function prepareForValidation()
     {
         if (Auth::user()->level !== 'admin') {
-            abort(403, 'Unauthorized action!');
+            abort(403, 'Unauthorized action');
         }
     }
 

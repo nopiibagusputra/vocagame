@@ -56,13 +56,17 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
+            
+            if ($request->has('password')) {
+                $request['password'] = bcrypt($request->password);
+            }
+    
             $user->update($request->all());
-
+    
             return new UserResource($user);
         } catch (Exception $e) {
             return response()->json(['message' => 'User not found'], 404);
         }
-       
     }
 
     /**
