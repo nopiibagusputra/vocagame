@@ -31,7 +31,10 @@ Route::prefix('/v1')->middleware('auth:api')->group(function () {
     Route::delete('products/{id}', [Products\ProductsController::class, 'destroy'])->name('products.delete');
     
     Route::post('wallet', [Wallet\WalletController::class, 'createWallet'])->name('wallet.store');
+    Route::post('wallet/data', [Wallet\WalletController::class, 'getWallet'])->name('wallet.data');
     Route::post('wallet/topup', [Wallet\WalletController::class, 'depositBalances'])->name('wallet.topup');
     Route::post('wallet/withdrawal', [Wallet\WalletController::class, 'withdrawalBalance'])->name('wallet.withdrawal');
+
+    Route::post('transaction', [Transaction\TransactionController::class, 'buyItems'])->name('transaction.buyitems');
 
 });

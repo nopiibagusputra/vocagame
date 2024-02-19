@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Wallet;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AddWalletRequest;
+use App\Http\Requests\WalletRequest;
 use App\Http\Requests\DepositWalletRequest;
 use App\Http\Requests\WithdrawalWalletRequest;
 use App\Http\Resources\WalletResource;
@@ -47,6 +48,20 @@ class WalletController extends Controller
         return response()->json([
             'message' => 'Wallet created successfully'
         ], 201);
+    }
+
+    public function getWallet(WalletRequest $request){
+        $wallet = Wallet::where('userId', $request->userId)->first();
+    
+        if($wallet == null){
+            return response()->json([
+               'message' => 'Wallet not found'
+               ], 404);
+        }
+
+        return response()->json([
+            'wallet' => new WalletResource($wallet)
+        ], 200);
     }
 
     /**
