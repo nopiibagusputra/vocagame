@@ -50,7 +50,13 @@ class WalletController extends Controller
             'message' => 'Wallet created successfully'
         ], 201);
     }
-
+    
+    /**
+     * Get a user's wallet.
+     *
+     * @param WalletRequest $request
+     * @return JsonResponse
+     */
     public function getWallet(WalletRequest $request){
         $user = Wallet::where('userId', $request->userId)->first();
     

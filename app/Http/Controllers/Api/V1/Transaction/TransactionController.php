@@ -14,6 +14,12 @@ use DB;
 
 class TransactionController extends Controller
 {
+    /**
+     * Buy items
+     *
+     * @param BuyItemsRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function buyItems(BuyItemsRequest $request){
         $wallet = Wallet::where('userId', $request->userId)->first();
         $product = Product::where('id', $request->productId)->first();
