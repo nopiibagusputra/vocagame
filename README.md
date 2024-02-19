@@ -76,17 +76,18 @@ Repositori Project Test
     ```
 
 8. Jalankan migrasi database beserta seeder data dummy:
-    admin Level
-    "email": "admin@admin.com",
-    "password": "admin"
+   
+    ## admin Level
+    email: admin@admin.com,
+    password: admin
 
-    User Level
-    "email": "toddi@galuh.com",
-    "password": "toddi"
+    ## User Level
+    email: toddi@galuh.com,
+    password: toddi
 
-    User Level
-    "email": "bima@shindu.com",
-    "password": "bima"
+    ## User Level
+    email: bima@shindu.com,
+    password: bima
 
     ```bash
     php artisan migrate --seed
