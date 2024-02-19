@@ -46,7 +46,7 @@ Repositori Project Test
 2. Masuk ke folder backend:
 
     ```bash
-    cd assessment_maxy_academy/myapp_backend
+    cd vocagame
     ```
 
 3. Instal dependensi aplikasi dengan Composer:
@@ -61,7 +61,7 @@ Repositori Project Test
     cp .env.example .env
     ```
 
-5. Update file `.env`. kemudian ganti nama database menjadi `myapp`.
+5. Update file `.env`. kemudian ganti nama database menjadi `vocagame`.
 
 6. Jalankan generate key
 
@@ -75,19 +75,30 @@ Repositori Project Test
     php artisan optimize
     ```
 
-8. Jalankan migrasi database:
+8. Jalankan migrasi database beserta seeder data dummy:
+    admin Level
+    "email": "admin@admin.com",
+    "password": "admin"
+
+    User Level
+    "email": "toddi@galuh.com",
+    "password": "toddi"
+
+    User Level
+    "email": "bima@shindu.com",
+    "password": "bima"
 
     ```bash
-    php artisan migrate
+    php artisan migrate --seed
     ```
 
-9. Jalankan server pengembangan Laravel:
+10. Jalankan server pengembangan Laravel:
 
     ```bash
     php artisan serve
     ```
 
-    API backend akan dapat diakses pada `http://127.0.0.1:8000/api/v1`.
+API backend akan dapat diakses pada `http://127.0.0.1:8000/api/v1`.
 
 Aplikasi sudah dapat digunakan.
 
