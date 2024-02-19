@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('topup_history', function (Blueprint $table) {
             $table->id();
             $table->integer('userId')->unsigned();
-            $table->integer('amount');
+            $table->string('amount');
             $table->timestamps();
         });
     }

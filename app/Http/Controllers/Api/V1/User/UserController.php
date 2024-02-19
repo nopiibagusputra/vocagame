@@ -10,6 +10,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Requests\AddUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Laravel\Passport\Token;
+use Auth;
 
 class UserController extends Controller
 {
@@ -21,6 +22,9 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+        if (Auth::user()->level !== 'admin') {
+            abort(403, 'Unauthorized action');
+        }
         return UserResource::collection($users);
     }
 
@@ -32,17 +36,23 @@ class UserController extends Controller
      */
     public function store(AddUserRequest $request)
     {
-        User::create([
-            'name'  => $request->name,
-            'email' => $request->email,
-            'level' => $request->level,
-            'active'=> '1',
-            'password'  => bcrypt($request->password),
-        ]);
-
-        return response()->json([
-          'message' => 'User created successfully'
-        ], 201);
+        try {
+            if ($request->password !== $request->password_confirmation) {
+                return response()->json(['message' => 'Password confirmation does not match'], 400);
+            }
+    
+            User::create([
+                'name'     => $request->name,
+                'email'    => $request->email,
+                'level'    => $request->level,
+                'active'   => '1',
+                'password' => bcrypt($request->password),
+            ]);
+    
+            return response()->json(['message' => 'User created successfully'], 201);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to create user'], 500);
+        }
     }
 
     /**
@@ -77,6 +87,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()->level !== 'admin') {
+            abort(403, 'Unauthorized action');
+        }
+        
         try {
             $user = User::findOrFail($id);
             $this->authorize('delete', $user);

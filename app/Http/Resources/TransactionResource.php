@@ -14,6 +14,11 @@ class TransactionResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $decryptedBalance = decrypt($this->balance);
+        return [
+            'id' => $this->id,
+            'userId' => $this->userId,
+            'balance' => $decryptedBalance,
+        ];
     }
 }

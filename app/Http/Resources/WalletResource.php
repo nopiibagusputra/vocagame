@@ -14,10 +14,12 @@ class WalletResource extends JsonResource
      */
     public function toArray($request)
     {
+        $decryptedBalance = decrypt($this->balance);
+
         return [
             'id' => $this->id,
             'userId' => $this->userId,
-            'balance' => $this->balance,
+            'balance' => $decryptedBalance,
         ];
     }
 }

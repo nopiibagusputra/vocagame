@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Wallet;
 
+use Illuminate\Support\Facades\Crypt;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AddWalletRequest;
@@ -42,7 +43,7 @@ class WalletController extends Controller
     
         Wallet::create([
             'userId' => $request->userId,
-            'balance' => 0
+            'balance' => Crypt::encrypt(0)
         ]);
     
         return response()->json([
@@ -80,8 +81,9 @@ class WalletController extends Controller
         }
     
         $userId = $wallet->userId;
-        $balance = $wallet->balance;
-        $topup = $balance + $request->balance;
+        $balance = decrypt($wallet->balance);
+        $calc = $balance + $request->balance;
+        $topup = Crypt::encrypt($calc);
     
         DB::transaction(function () use ($wallet, $topup, $userId, $request) {
             $wallet->balance = $topup;
@@ -89,7 +91,7 @@ class WalletController extends Controller
     
             Topup::create([
                 'userId' => $userId,
-                'amount' => $request->balance
+                'amount' => Crypt::encrypt($request->balance)
             ]);
         });
 
@@ -114,7 +116,7 @@ class WalletController extends Controller
                ], 404);
         }
 
-        $balance = $wallet->balance;
+        $balance = decrypt($wallet->balance);
         $withdrawal = $balance - $request->amount;
         
         if($withdrawal < 0){
@@ -132,7 +134,7 @@ class WalletController extends Controller
                 'status'        => 'Approved'
             ]);
     
-            $wallet->balance = $withdrawal;
+            $wallet->balance = Crypt::encrypt($withdrawal);
             $wallet->save();
         });
 

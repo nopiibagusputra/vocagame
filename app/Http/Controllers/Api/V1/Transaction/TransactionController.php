@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Transaction;
 
+use Illuminate\Support\Facades\Crypt;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\BuyItemsRequest;
@@ -16,7 +17,7 @@ class TransactionController extends Controller
     public function buyItems(BuyItemsRequest $request){
         $wallet = Wallet::where('userId', $request->userId)->first();
         $product = Product::where('id', $request->productId)->first();
-        $balance = $wallet->balance - ($product->prices * $request->amount);
+        $balance = decrypt($wallet->balance) - ($product->prices * $request->amount);;
         
         if($product == null OR $product->available == 0){
             return response()->json([
@@ -31,7 +32,7 @@ class TransactionController extends Controller
         }
 
         DB::transaction(function () use ($wallet, $balance, $request) {
-            $wallet->balance = $balance;
+            $wallet->balance = Crypt::encrypt($balance);
             $wallet->save();
             
             Transaction::create([

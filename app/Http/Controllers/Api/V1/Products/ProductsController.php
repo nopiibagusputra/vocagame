@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Http\Requests\AddProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductsResource;
+use Auth;
 
 class ProductsController extends Controller
 {
@@ -70,6 +71,10 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()->level !== 'admin') {
+            abort(403, 'Unauthorized action');
+        }
+
         try {
             $data = Product::findOrFail($id);
             $data->delete();
