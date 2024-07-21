@@ -76,6 +76,10 @@ Repositori Project Test
     ```
 
 8. Jalankan migrasi database beserta seeder data dummy:
+
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
    
     ## admin Level
     email: admin@admin.com,
