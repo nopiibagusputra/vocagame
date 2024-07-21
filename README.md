@@ -93,10 +93,6 @@ Repositori Project Test
     email: bima@shindu.com,
     password: bima
 
-    ```bash
-    php artisan migrate --seed
-    ```
-
 10. Jalankan server pengembangan Laravel:
 
     ```bash
